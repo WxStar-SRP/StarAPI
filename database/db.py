@@ -7,7 +7,7 @@ env = dotenv_values(".env")
 # PostgreSQL connection variables
 PSQL_HOST = env['POSTGRES_HOST']
 PSQL_PORT = env['POSTGRES_PORT']
-PSQL_USER = env['POSTGRES_USER']
+PSQL_USER = env['POSTGRES_USERNAME']
 PSQL_PASS = env['POSTGRES_PASSWORD']
 PSQL_DB = env['POSTGRES_DB']
 
