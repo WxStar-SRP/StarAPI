@@ -3,7 +3,7 @@ from fastapi import FastAPI,Depends
 import database.db
 from database import db_models
 from routers import wxstar, service
-from service_routers import moon
+from service_routers import moon, cuer
 
 app = FastAPI(
     title="WXStar Management API",
@@ -20,6 +20,7 @@ app.include_router(service.router)
 
 # System Service Routers
 app.include_router(moon.router)
+app.include_router(cuer.router)
 
 
 @app.get("/")
