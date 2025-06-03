@@ -16,17 +16,16 @@ class WXStar(SQLModel, table=True):
     ip_addr: str = Field(default="127.0.0.1", nullable=False)   # This can also be updated automatically
     data_port: str = Field(default="7777", nullable=False)
     data_port_pri: str = Field(default="7788", nullable=False)
-    #msocode: int | None = Field(default=None, nullable=True)    # Reported by receivers
+    msocode: int | None = Field(default=None, nullable=True)    # Reported by receivers
     online: bool = Field(default=False)     # Reported by receivers
     
-    
-# class AdCrawl(SQLModel, table=True):
-#     __tablename__ = "adcrawls"
-#     id: uuid.UUID = Field(default_factory=uuid.uuid3, primary_key=True)
-#     stars: List[uuid.UUID] = Field(sa_column=Column(ARRAY(UUID)))
-#     start_date: datetime = Field(default=datetime.now(timezone.utc), nullable=False)
-#     end_date: datetime = Field(default=None, nullable=True)
-#     crawl: str = Field(nullable=False)
+class AdCrawl(SQLModel, table=True):
+    __tablename__ = "adcrawls"
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    msocode: int = Field(nullable=False, foreign_key="wxstars.msocode")
+    start_date: datetime = Field(default=datetime.now(timezone.utc), nullable=False)
+    end_date: datetime = Field(default=None, nullable=False)
+    crawl_txt: str = Field(nullable=False)
     
     
 class SystemService(SQLModel, table=True):
