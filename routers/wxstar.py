@@ -4,6 +4,7 @@ from sqlmodel import select
 from database.db_models import WXStar
 from dependencies import SessionDep
 import models.post
+import models.put
 
 
 router = APIRouter(
@@ -56,3 +57,26 @@ async def get_wxstar_by_uuid(star_uuid: uuid.UUID,
     star_info = session.exec(select(WXStar).where(WXStar.id == star_uuid)).one()
     
     return star_info
+
+
+@router.put("/{star_uuid}/set_locations", status_code=200)
+async def update_wxstar_locations(star_uuid: uuid.UUID, session: SessionDep, locations: models.put.WxStarLocationUpdate):
+    try:
+        wxstar = session.exec(select(WXStar).where(WXStar.id == star_uuid)).one()
+    except:
+        raise HTTPException(
+            status_code = 404,
+            detail = "WeatherStar not found"
+        )
+
+    wxstar.locations = locations.locations
+
+    if locations.zones is not None:
+        wxstar.zones = locations.zones
+    
+    session.add(wxstar)
+    session.commit()
+    session.refresh(wxstar)
+
+    return {"Updated locations and/or zones."}
+    
