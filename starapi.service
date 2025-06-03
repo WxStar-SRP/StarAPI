@@ -1,0 +1,14 @@
+[Unit]
+Description=WeatherStar management REST API
+After=network.target
+
+[Service]
+User=wxstar
+Group=wxstar
+WorkingDirectory=/usr/share/starapi
+LimitNOFILE=4096
+ExecStart=/usr/share/starapi/.venv/bin/fastapi run --host 0.0.0.0 --port 8000 --reload
+
+[Install]
+WantedBy=multi-user.target
+
