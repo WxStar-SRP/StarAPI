@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional,List
 from models import enums
+from datetime import datetime, timezone
 
 
 class WxStarIn(BaseModel):
@@ -13,6 +14,18 @@ class WxStarIn(BaseModel):
     gfxpkg_ldl: Optional[str] = None
     
     
+class HeadendIn(BaseModel):
+    name: str
+    msocode: int
+
+
+class CrawlIn(BaseModel):
+    msocode: int
+    start_date: datetime = datetime.now(timezone.utc)
+    end_date: datetime
+    crawl_txt: str
+
+
 class SystemServiceIn(BaseModel):
     name: str
     host: str = "127.0.0.1"
