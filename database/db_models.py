@@ -3,6 +3,11 @@ from datetime import datetime, timezone
 from typing import Annotated,List
 from sqlmodel import Field,Session,SQLModel,Column,ARRAY,Text,UUID
 
+class Headend(SQLModel, table=True):
+    __tablename__ = "headends"
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    name: str = Field(nullable=False)
+    msocode: int = Field(nullable=False, unique=True)
 
 class WXStar(SQLModel, table=True):
     __tablename__ = "wxstars"
@@ -16,13 +21,13 @@ class WXStar(SQLModel, table=True):
     ip_addr: str = Field(default="127.0.0.1", nullable=False)   # This can also be updated automatically
     data_port: str = Field(default="7777", nullable=False)
     data_port_pri: str = Field(default="7788", nullable=False)
-    msocode: int | None = Field(default=None, nullable=True)    # Reported by receivers
+    msocode: int | None = Field(default=None, nullable=True, foreign_key="headends.msocode")    # Reported by receivers
     online: bool = Field(default=False)     # Reported by receivers
     
 class AdCrawl(SQLModel, table=True):
     __tablename__ = "adcrawls"
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    msocode: int = Field(nullable=False, foreign_key="wxstars.msocode")
+    msocode: int = Field(nullable=False, foreign_key="headends.msocode")
     start_date: datetime = Field(default=datetime.now(timezone.utc), nullable=False)
     end_date: datetime = Field(default=None, nullable=False)
     crawl_txt: str = Field(nullable=False)
