@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import FastAPI,Depends
 import database.db
 from database import db_models
-from routers import wxstar, service
+from routers import wxstar, service, ads
 from service_routers import moon, cuer
 
 app = FastAPI(
@@ -15,6 +15,7 @@ app = FastAPI(
 
 # Basic operational routers
 app.include_router(wxstar.router)
+app.include_router(ads.router)
 app.include_router(service.router)
 
 
