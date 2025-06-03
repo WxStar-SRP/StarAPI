@@ -18,9 +18,9 @@ async def get_global_cue_settings(session: SessionDep):
 
 @router.get("/star_cue_settings")
 async def get_star_cue_settings(session: SessionDep,
-                                star_type: WxStarModel):
+                                star_model: WxStarModel):
     
-    if star_type == WxStarModel.i2_generic:
+    if star_model == WxStarModel.i2_generic:
         stars = session.exec(select(WXStar.id, WXStar.gfxpkg_ldl, WXStar.gfxpkg_lf)
                              .filter(or_(
                                 WXStar.model == WxStarModel.i2xd,
