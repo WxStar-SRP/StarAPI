@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import select
 from database.db_models import WXStar
 from dependencies import SessionDep
+from webhook import discord
 import models.post
 import models.put
 
@@ -29,6 +30,8 @@ async def register_wxstar_unit(star_info: models.post.WxStarIn,
     session.add(db_wxstar)
     session.commit()
     session.refresh(db_wxstar)
+
+    await discord.log_unit_creation(db_wxstar)
     
     return db_wxstar
 
